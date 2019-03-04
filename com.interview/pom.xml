@@ -118,6 +118,12 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
 		</dependency>
+		<!-- http://commons.apache.org/lang/-->
+		<dependency>
+    		<groupId>org.apache.commons</groupId>
+    		<artifactId>commons-lang3</artifactId>
+    		<version>3.0</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
