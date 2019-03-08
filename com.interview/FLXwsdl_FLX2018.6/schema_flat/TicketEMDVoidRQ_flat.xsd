@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns="http://farelogix.com/flx/TicketEMDVoidRQ" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://farelogix.com/flx/TicketEMDVoidRQ" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:element name="TicketEMDVoidRQ">
+    <xsd:annotation>
+      <xsd:documentation>Root element of a combined VOID request.  This API is designed to void any EMD-A documents associated to the ticket to be voided</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element minOccurs="0" ref="SaleInfo" />
+        <xsd:element ref="TicketVoidRQ">
+          <xsd:annotation>
+            <xsd:documentation>Ticket to be voided</xsd:documentation>
+          </xsd:annotation>
+        </xsd:element>
+        <xsd:element maxOccurs="unbounded" ref="EMDVoidRQ">
+          <xsd:annotation>
+            <xsd:documentation>List of all EMD-A documents associated to the ticket to be voided.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:element>
+      </xsd:sequence>
+      <xsd:attribute name="Version" type="xsd:string" use="optional">
+        <xsd:annotation>
+          <xsd:documentation source="DESCRIPTION" xml:lang="en">Message version number.
+Example: 1.0</xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="TimeStamp" type="xsd:dateTime" use="optional">
+        <xsd:annotation>
+          <xsd:documentation source="DESCRIPTION" xml:lang="en">Message creation timestamp.
+Example: 2012-01-13T13:59:38Z</xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="TransactionIdentifier" type="xsd:string" use="optional">
+        <xsd:annotation>
+          <xsd:documentation source="DESCRIPTION" xml:lang="en">Unique relationship identifier for request and response messages that are part of an on-going transaction.
+Example: TRN12345</xsd:documentation>
+          <xsd:documentation source="GUIDELINES" xml:lang="en">=notes=
+1. This is a unique identifier to relate all messages that are part of an on-going transaction.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="PrimaryLangID" use="optional">
+        <xsd:annotation>
+          <xsd:documentation source="DESCRIPTION" xml:lang="en">Primary language preference for message content.
+Example: en-US (English, United States)</xsd:documentation>
+          <xsd:documentation source="ENCODING" xml:lang="en">For maximum interoperability, content language designators are specified using Microsoft National Language Support (NLS) encoding.
+http://msdn.microsoft.com/en-us/goglobal/bb896001.aspx</xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="2" />
+            <xsd:maxLength value="5" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="AltLangID" use="optional">
+        <xsd:annotation>
+          <xsd:documentation source="DESCRIPTION" xml:lang="en">Alternate language preference for message content.
+Example: en-GB (English, United Kingdom)</xsd:documentation>
+          <xsd:documentation source="ENCODING" xml:lang="en">For maximum interoperability, content language designators are specified using Microsoft National Language Support (NLS) encoding.
+http://msdn.microsoft.com/en-us/goglobal/bb896001.aspx</xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="2" />
+            <xsd:maxLength value="5" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="TargetSystem" type="xsd:string" use="optional">
+        <xsd:annotation>
+          <xsd:documentation source="DESCRIPTION" xml:lang="en">Message target system type.
+Examples:
+PRODUCTION
+STAGING
+TEST</xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="TargetSystemName" type="xsd:string" use="optional">
+        <xsd:annotation>
+          <xsd:documentation source="DESCRIPTION" xml:lang="en">Message target system name.
+Example: STG002</xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="SaleInfo">
+    <xsd:annotation>
+      <xsd:documentation>Point of Sale information</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element minOccurs="0" ref="CityCode">
+          <xsd:annotation>
+            <xsd:documentation>Point of Sale City Code 
+Example: BOS</xsd:documentation>
+          </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" ref="CountryCode">
+          <xsd:annotation>
+            <xsd:documentation>Point of Sale Country Code 
+Example: US</xsd:documentation>
+          </xsd:annotation>
+        </xsd:element>
+        <xsd:element minOccurs="0" name="CurrencyCode">
+          <xsd:annotation>
+            <xsd:documentation>Point of Sale Currency Code
+Example: USD</xsd:documentation>
+          </xsd:annotation>
+          <xsd:complexType>
+            <xsd:simpleContent>
+              <xsd:restriction base="CurrencyCodeType">
+                <xsd:pattern value="[A-Z0-9]{3}" />
+                <xsd:attribute name="NumberOfDecimals" type="xsd:integer" use="prohibited">
+                  <xsd:annotation>
+                    <xsd:documentation>Decimal position in fare amount.  Example: 2</xsd:documentation>
+                  </xsd:annotation>
+                </xsd:attribute>
+              </xsd:restriction>
+            </xsd:simpleContent>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element minOccurs="0" ref="Identification" />
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="CountryCode">
+    <xsd:annotation>
+      <xsd:documentation>Country where sale takes place or Ticket issuing country. Example: US</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType>
+      <xsd:restriction base="xsd:string">
+        <xsd:maxLength value="2" />
+        <xsd:minLength value="2" />
+      </xsd:restriction>
+    </xsd:simpleType>
+  </xsd:element>
+  <xsd:element name="CityCode">
+    <xsd:annotation>
+      <xsd:documentation>Departure or arrival city code.  Example: MIA</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType>
+      <xsd:restriction base="xsd:string">
+        <xsd:maxLength value="3" />
+        <xsd:minLength value="3" />
+      </xsd:restriction>
+    </xsd:simpleType>
+  </xsd:element>
+  <xsd:element name="Identification">
+    <xsd:annotation>
+      <xsd:documentation>Identification values for requestor, aggregator and airline</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="RequestorInfo">
+          <xsd:annotation>
+            <xsd:documentation>Requestor identification values </xsd:documentation>
+          </xsd:annotation>
+          <xsd:complexType>
+            <xsd:sequence minOccurs="0">
+              <xsd:element minOccurs="0" name="UserInfo">
+                <xsd:annotation>
+                  <xsd:documentation>User Information.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                  <xsd:attribute name="UserID" use="required">
+                    <xsd:annotation>
+                      <xsd:documentation>In case of an agency this is typically the Agent's ID </xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:attribute>
+                  <xsd:attribute name="UserRole">
+                    <xsd:annotation>
+                      <xsd:documentation>User's role as set in system provider's requestor profile</xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:attribute>
+                  <xsd:attribute name="UserPW">
+                    <xsd:annotation>
+                      <xsd:documentation>User's password</xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:attribute>
+                  <xsd:attribute name="DutyCode" type="xsd:string" use="optional">
+                    <xsd:annotation>
+                      <xsd:documentation source="DESCRIPTION" xml:lang="en">Agent duty code.
+Example: UZ</xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:attribute>
+                  <xsd:attribute name="SignOn" type="xsd:string" use="optional">
+                    <xsd:annotation>
+                      <xsd:documentation source="DESCRIPTION" xml:lang="en">Agent sign on (SINE).
+Example: 6146TL</xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:attribute>
+                  <xsd:attribute name="LNIATA" type="xsd:string" use="optional">
+                    <xsd:annotation>
+                      <xsd:documentation source="DESCRIPTION" xml:lang="en">Agent CRT or terminal LNIATA number.
+Example: 956301007</xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:attribute>
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:element minOccurs="0" name="AccountInfo">
+                <xsd:annotation>
+                  <xsd:documentation>Account info as it relates to a (customer) account of the requestor such as a corporate booking tool</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                  <xsd:sequence minOccurs="0">
+                    <xsd:element name="AccountUserInfo">
+                      <xsd:annotation>
+                        <xsd:documentation>Account User Info</xsd:documentation>
+                      </xsd:annotation>
+                      <xsd:complexType>
+                        <xsd:attribute name="AccountUserID" use="required">
+                          <xsd:annotation>
+                            <xsd:documentation>User ID of the account</xsd:documentation>
+                          </xsd:annotation>
+                        </xsd:attribute>
+                      </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="SourceInfo">
+                      <xsd:annotation>
+                        <xsd:documentation source="DESCRIPTION" xml:lang="en">System source detail used for auditing and traceability.</xsd:documentation>
+                      </xsd:annotation>
+                      <xsd:complexType>
+                        <xsd:sequence>
+                          <xsd:element name="IPAddress" type="xsd:string">
+                            <xsd:annotation>
+                              <xsd:documentation>IP address of the requestor</xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                          <xsd:element minOccurs="0" name="IPPort" type="xsd:string">
+                            <xsd:annotation>
+                              <xsd:documentation>IP port associated to above IP address</xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                        </xsd:sequence>
+                      </xsd:complexType>
+                    </xsd:element>
+                  </xsd:sequence>
+                  <xsd:attribute name="AccountID" use="required">
+                    <xsd:annotation>
+                      <xsd:documentation>In case of an agency this is typically the Account ID as set up between requestor and client, such as a corporate booking tool </xsd:documentation>
+                    </xsd:annotation>
+                  </xsd:attribute>
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:element name="SourceInfo">
+                <xsd:annotation>
+                  <xsd:documentation>System source detail used for auditing and traceability.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="IPAddress" type="xsd:string">
+                      <xsd:annotation>
+                        <xsd:documentation>IP address of the requestor</xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="IPPort" type="xsd:string">
+                      <xsd:annotation>
+                        <xsd:documentation>IP port associated to above IP address</xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+            <xsd:attribute name="RequestorID" use="required">
+              <xsd:annotation>
+                <xsd:documentation>In case of an agency this is typically the PCC of the POS agency (PseudoCityCode)</xsd:documentation>
+              </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="RequestorIATA">
+              <xsd:annotation>
+                <xsd:documentation>Requestor's IATA number (if applicable)</xsd:documentation>
+              </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="ReportingAgency" type="xsd:string" use="optional">
+              <xsd:annotation>
+                <xsd:documentation source="DESCRIPTION" xml:lang="en">Reporting agency.
+Examples:
+ARC
+BSP
+Other</xsd:documentation>
+              </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="DocStock" type="xsd:string" use="optional">
+              <xsd:annotation>
+                <xsd:documentation source="DESCRIPTION" xml:lang="en">Stock to be used.
+Examples: BSP, AL</xsd:documentation>
+              </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="RequestorName" type="xsd:string" use="optional">
+              <xsd:annotation>
+                <xsd:documentation source="DESCRIPTION" xml:lang="en">Requestor name.
+Example: UNITED AIRLINES</xsd:documentation>
+              </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="RequestorPW" type="xsd:string" use="optional">
+              <xsd:annotation>
+                <xsd:documentation source="DESCRIPTION" xml:lang="en">Requestor password.</xsd:documentation>
+              </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="RequestorType" type="xsd:string" use="optional">
+              <xsd:annotation>
+                <xsd:documentation source="DESCRIPTION" xml:lang="en">Requestor type.
+Example:
+A (Airline)
+C (Consolidator)
+E (Electronic Selling System)
+G (General Sales Agent)
+I (Internal CRS Locations)
+T (Travel Agent)
+V (Vendor)
+W (Wholesaler/Tour Operator)</xsd:documentation>
+              </xsd:annotation>
+            </xsd:attribute>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element minOccurs="0" maxOccurs="2" name="AggregatorInfo">
+          <xsd:annotation>
+            <xsd:documentation>Aggregator identification values </xsd:documentation>
+          </xsd:annotation>
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element minOccurs="0" name="SourceInfo">
+                <xsd:annotation>
+                  <xsd:documentation source="DESCRIPTION" xml:lang="en">System source detail used for auditing and traceability.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="IPAddress" type="xsd:string">
+                      <xsd:annotation>
+                        <xsd:documentation>IP address of the requestor</xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element minOccurs="0" name="IPPort" type="xsd:string">
+                      <xsd:annotation>
+                        <xsd:documentation>IP port associated to above IP address</xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:element>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+            <xsd:attribute name="AggregatorID" type="xsd:string" use="required">
+              <xsd:annotation>
+                <xsd:documentation>ID of the aggregating entity, such as GDS, OTA, MetaSearch, etc.</xsd:documentation>
+              </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="AggregatorPW" type="xsd:string">
+              <xsd:annotation>
+                <xsd:documentation>Aggregator's password</xsd:documentation>
+              </xsd:annotation>
+            </xsd:attribute>
+            <xsd:attribute name="AggregatorType">
+              <xsd:annotation>
+                <xsd:documentation>Values as per IATA's AIRIMP are as follows:
+A - Airline
+E - ERSP (Electronic Reservation System Provider)
+N - Requestor has no identification
+T - Requestor has a user identification number assigned by IATA/ARC other than ERSP</xsd:documentation>
+              </xsd:annotation>
+            </xsd:attribute>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="TicketVoidRQ">
+    <xsd:annotation>
+      <xsd:documentation>Comment describing your root element</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="IATA" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>IATA number of the agency originating the request.
+Example: 123456</xsd:documentation>
+          </xsd:annotation>
+        </xsd:element>
+        <xsd:element name="PseudoCityCode" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>Pseudo City Code of the agency requesting the void/cancel. Used to verify if it has the authority for this request.
+Example: LNJ2</xsd:documentation>
+          </xsd:annotation>
+        </xsd:element>
+        <xsd:element name="TicketNumber" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The 14-digit number (incl check digit) of the ticket to be voided. 
+Example: 00123456789126
+NOTE: In case of a conjunctive ticket, all tickets belonging to this set will be voided.Hence, it is not necessary to specify all ticket numbers of the tickets forming part of the conjunctive set.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:element>
+        <xsd:element name="RecordLocator">
+          <xsd:annotation>
+            <xsd:documentation>The record locator of the PNR from which the ticket has been issued.</xsd:documentation>
+          </xsd:annotation>
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+              <xsd:minLength value="1" />
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="EMDVoidRQ">
+    <xsd:annotation>
+      <xsd:documentation>Comment describing your root element</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="IATA" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>IATA number of the agency originating the request.
+Example: 123456</xsd:documentation>
+          </xsd:annotation>
+        </xsd:element>
+        <xsd:element name="PseudoCityCode" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>Pseudo City Code of the agency requesting the void/cancel. Used to verify if it has the authority for this request.
+Example: LNJ2</xsd:documentation>
+          </xsd:annotation>
+        </xsd:element>
+        <xsd:element name="DocumentNumber" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>The 14-digit number (incl check digit) of the document to be voided. 
+Example: 00123456789126
+NOTE: In case of a conjunctive ticket, all documents belonging to this set will be voided.Hence, it is not necessary to specify all document numbers of a conjunctive set.</xsd:documentation>
+          </xsd:annotation>
+        </xsd:element>
+        <xsd:element name="RecordLocator">
+          <xsd:annotation>
+            <xsd:documentation>The record locator of the PNR from which the ticket has been issued.</xsd:documentation>
+          </xsd:annotation>
+          <xsd:simpleType>
+            <xsd:restriction base="xsd:string">
+              <xsd:minLength value="1" />
+            </xsd:restriction>
+          </xsd:simpleType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:complexType name="CurrencyCodeType">
+    <xsd:annotation>
+      <xsd:documentation>Defines currency code (ISO 3-letter code) and optional number of decimals. Not that for request messages the NumberOfDecimals has no effect and is not needed.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:string">
+        <xsd:attribute name="NumberOfDecimals" type="xsd:integer" use="optional">
+          <xsd:annotation>
+            <xsd:documentation>Decimal position in fare amount.  Example: 2</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="Rate">
+          <xsd:annotation>
+            <xsd:documentation>Exchange rate used for the conversion</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="Table" type="xsd:string">
+          <xsd:annotation>
+            <xsd:documentation>Table reference for the exchange rate.
+Sample: BSR</xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+</xsd:schema>

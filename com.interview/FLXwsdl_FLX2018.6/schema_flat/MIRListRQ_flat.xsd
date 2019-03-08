@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns="http://farelogix.com/flx/MIRListRQ" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://farelogix.com/flx/MIRListRQ" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:attributeGroup name="PayloadStdAttributes">
+    <xsd:annotation>
+      <xsd:documentation source="DESCRIPTION" xml:lang="en">NDC schema payload standard attributes.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:attribute name="Version" type="xsd:string" use="optional">
+      <xsd:annotation>
+        <xsd:documentation source="DESCRIPTION" xml:lang="en">Message version number.
+Example: 1.0</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="TimeStamp" type="xsd:dateTime" use="optional">
+      <xsd:annotation>
+        <xsd:documentation source="DESCRIPTION" xml:lang="en">Message creation timestamp.
+Example: 2012-01-13T13:59:38Z</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="TransactionIdentifier" type="xsd:string" use="optional">
+      <xsd:annotation>
+        <xsd:documentation source="DESCRIPTION" xml:lang="en">Unique relationship identifier for request and response messages that are part of an on-going transaction.
+Example: TRN12345</xsd:documentation>
+        <xsd:documentation source="GUIDELINES" xml:lang="en">=notes=
+1. This is a unique identifier to relate all messages that are part of an on-going transaction.</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="PrimaryLangID" use="optional">
+      <xsd:annotation>
+        <xsd:documentation source="DESCRIPTION" xml:lang="en">Primary language preference for message content.
+Example: en-US (English, United States)</xsd:documentation>
+        <xsd:documentation source="ENCODING" xml:lang="en">For maximum interoperability, content language designators are specified using Microsoft National Language Support (NLS) encoding.
+http://msdn.microsoft.com/en-us/goglobal/bb896001.aspx</xsd:documentation>
+      </xsd:annotation>
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:string">
+          <xsd:minLength value="2" />
+          <xsd:maxLength value="5" />
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:attribute>
+    <xsd:attribute name="AltLangID" use="optional">
+      <xsd:annotation>
+        <xsd:documentation source="DESCRIPTION" xml:lang="en">Alternate language preference for message content.
+Example: en-GB (English, United Kingdom)</xsd:documentation>
+        <xsd:documentation source="ENCODING" xml:lang="en">For maximum interoperability, content language designators are specified using Microsoft National Language Support (NLS) encoding.
+http://msdn.microsoft.com/en-us/goglobal/bb896001.aspx</xsd:documentation>
+      </xsd:annotation>
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:string">
+          <xsd:minLength value="2" />
+          <xsd:maxLength value="5" />
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:attribute>
+    <xsd:attribute name="TargetSystem" type="xsd:string" use="optional">
+      <xsd:annotation>
+        <xsd:documentation source="DESCRIPTION" xml:lang="en">Message target system type.
+Examples:
+PRODUCTION
+STAGING
+TEST</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="TargetSystemName" type="xsd:string" use="optional">
+      <xsd:annotation>
+        <xsd:documentation source="DESCRIPTION" xml:lang="en">Message target system name.
+Example: STG002</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:attributeGroup>
+  <xsd:element name="Format">
+    <xsd:annotation>
+      <xsd:documentation>File formats</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element minOccurs="0" maxOccurs="unbounded" ref="Prop" />
+      </xsd:sequence>
+      <xsd:attribute name="ext" type="xsd:string" use="required">
+        <xsd:annotation>
+          <xsd:documentation>File extension desired. Example: txt</xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="Type">
+        <xsd:annotation>
+          <xsd:documentation>Specifies the format. See FLX Codeset document for values.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:maxLength value="3" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="Prop">
+    <xsd:complexType>
+      <xsd:attribute name="name">
+        <xsd:annotation>
+          <xsd:documentation>Name of the property set in the MIR Tool. Example: NewLine</xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="value">
+        <xsd:annotation>
+          <xsd:documentation>Value of the property set in the MIR Tool. Example: Y</xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="Transaction">
+    <xsd:annotation>
+      <xsd:documentation>Transaction per ticket number per type of transaction</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:attribute name="TicketNumber" type="xsd:string" use="required">
+        <xsd:annotation>
+          <xsd:documentation>TicketNumber from the database. Example: 1564105517</xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="TxType" use="required">
+        <xsd:annotation>
+          <xsd:documentation>Ticket Type from the database. Possible values are:
+TKTT: Ticketed
+CANX: Canceled/Voilded
+</xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:length value="4" />
+            <xsd:enumeration value="TKTT" />
+            <xsd:enumeration value="CANX" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="TxTime" type="xsd:string" use="required">
+        <xsd:annotation>
+          <xsd:documentation>POS date and time stamp when the ticket transaction took place. Example: 2010-04-08T13:12:53</xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="Type">
+        <xsd:annotation>
+          <xsd:documentation>E=EMD, M=MCO, T=TASF. Absence of it defaults to Tickets.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="pcc">
+        <xsd:annotation>
+          <xsd:documentation>Pseudo City Code. Example: AAL0</xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="RecordLocator" />
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="InfoGroup">
+    <xsd:annotation>
+      <xsd:documentation>Error and information group</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element minOccurs="0" ref="ForInfo" />
+        <xsd:element minOccurs="0" maxOccurs="unbounded" ref="Error" />
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="ForInfo">
+    <xsd:annotation>
+      <xsd:documentation>Information group</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element maxOccurs="unbounded" ref="Text">
+          <xsd:annotation>
+            <xsd:documentation>Information text or error text. Example: Free flow text.  Example: No tickets to display</xsd:documentation>
+          </xsd:annotation>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="Text" type="xsd:string">
+    <xsd:annotation>
+      <xsd:documentation>Information text or error text. Example: Free flow text.  Example: Invalid flight number</xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+  <xsd:element name="Error">
+    <xsd:annotation>
+      <xsd:documentation>Error group</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="Code">
+          <xsd:annotation>
+            <xsd:documentation>Error code </xsd:documentation>
+          </xsd:annotation>
+        </xsd:element>
+        <xsd:element maxOccurs="unbounded" ref="Text">
+          <xsd:annotation>
+            <xsd:documentation>Information text or error text. Example: Free flow text.  Example: No tickets to display</xsd:documentation>
+          </xsd:annotation>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="Code" type="xsd:string">
+    <xsd:annotation>
+      <xsd:documentation>Error code or equipment type code.  Example: 0104 (error code), 747 (equipment code)</xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+  <xsd:element name="MIRListRQ">
+    <xsd:annotation>
+      <xsd:documentation>MIR List request root element. Request for the  tickets per transactions which have been not reported yet.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element maxOccurs="unbounded" ref="List" />
+        <xsd:element minOccurs="0" ref="Format" />
+      </xsd:sequence>
+      <xsd:attributeGroup ref="PayloadStdAttributes" />
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="List">
+    <xsd:annotation>
+      <xsd:documentation> List of different requests</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element maxOccurs="unbounded" ref="Files" />
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="Files">
+    <xsd:annotation>
+      <xsd:documentation> Include the paramaters, client, pcc, start date and end date</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:attribute name="client" type="xsd:string" use="required">
+        <xsd:annotation>
+          <xsd:documentation>Client sending the request. Example: MIRFLX2</xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="pcc" type="xsd:string" use="required">
+        <xsd:annotation>
+          <xsd:documentation>Pseudo City Code. Example: AAL0</xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="Type" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>A=All, E=Only EMD, M=Only MCO, T=Only TASF. Absence of it defaults to only Tickets.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

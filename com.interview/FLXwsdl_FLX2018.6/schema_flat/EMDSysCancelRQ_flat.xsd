@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns="http://farelogix.com/flx/EMDSysCancelRQ" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://farelogix.com/flx/EMDSysCancelRQ" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:element name="EMDSysCancelRQ">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element minOccurs="0" name="RecordLocator">
+          <xsd:annotation>
+            <xsd:documentation>PNR record locator.  Example: R1A3SK</xsd:documentation>
+          </xsd:annotation>
+          <xsd:complexType>
+            <xsd:simpleContent>
+              <xsd:extension base="xsd:string">
+                <xsd:attribute name="Source" type="xsd:string" use="optional">
+                  <xsd:annotation>
+                    <xsd:documentation source="DESCRIPTION" xml:lang="en">Content source. Example: BA</xsd:documentation>
+                  </xsd:annotation>
+                </xsd:attribute>
+                <xsd:attribute name="AggregatorLocator" type="xsd:string">
+                  <xsd:annotation>
+                    <xsd:documentation>Indicates if the record locator specified is an Aggregator PNR record locator.  Must be used if using an aggregator record locator(e.g, Amadeus, Travelport) different from the airline host record locator to identify the PNR. Example: Y</xsd:documentation>
+                  </xsd:annotation>
+                </xsd:attribute>
+              </xsd:extension>
+            </xsd:simpleContent>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:choice>
+          <xsd:element name="TransactionID" type="xsd:string">
+            <xsd:annotation>
+              <xsd:documentation>The 10-digit transaction ID assigned to the EMD Issue request.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="DocumentNumber">
+            <xsd:annotation>
+              <xsd:documentation>The 14-digit document number (incl check digit) to be cancelled</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:sequence>
+      <xsd:attribute name="Version" type="xsd:string" use="optional">
+        <xsd:annotation>
+          <xsd:documentation source="DESCRIPTION" xml:lang="en">Message version number.
+Example: 1.0</xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="TimeStamp" type="xsd:dateTime" use="optional">
+        <xsd:annotation>
+          <xsd:documentation source="DESCRIPTION" xml:lang="en">Message creation timestamp.
+Example: 2012-01-13T13:59:38Z</xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="TransactionIdentifier" type="xsd:string" use="optional">
+        <xsd:annotation>
+          <xsd:documentation source="DESCRIPTION" xml:lang="en">Unique relationship identifier for request and response messages that are part of an on-going transaction.
+Example: TRN12345</xsd:documentation>
+          <xsd:documentation source="GUIDELINES" xml:lang="en">=notes=
+1. This is a unique identifier to relate all messages that are part of an on-going transaction.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="PrimaryLangID" use="optional">
+        <xsd:annotation>
+          <xsd:documentation source="DESCRIPTION" xml:lang="en">Primary language preference for message content.
+Example: en-US (English, United States)</xsd:documentation>
+          <xsd:documentation source="ENCODING" xml:lang="en">For maximum interoperability, content language designators are specified using Microsoft National Language Support (NLS) encoding.
+http://msdn.microsoft.com/en-us/goglobal/bb896001.aspx</xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="2" />
+            <xsd:maxLength value="5" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="AltLangID" use="optional">
+        <xsd:annotation>
+          <xsd:documentation source="DESCRIPTION" xml:lang="en">Alternate language preference for message content.
+Example: en-GB (English, United Kingdom)</xsd:documentation>
+          <xsd:documentation source="ENCODING" xml:lang="en">For maximum interoperability, content language designators are specified using Microsoft National Language Support (NLS) encoding.
+http://msdn.microsoft.com/en-us/goglobal/bb896001.aspx</xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="2" />
+            <xsd:maxLength value="5" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="TargetSystem" type="xsd:string" use="optional">
+        <xsd:annotation>
+          <xsd:documentation source="DESCRIPTION" xml:lang="en">Message target system type.
+Examples:
+PRODUCTION
+STAGING
+TEST</xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="TargetSystemName" type="xsd:string" use="optional">
+        <xsd:annotation>
+          <xsd:documentation source="DESCRIPTION" xml:lang="en">Message target system name.
+Example: STG002</xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

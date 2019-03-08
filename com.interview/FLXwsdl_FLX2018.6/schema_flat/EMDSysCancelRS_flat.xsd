@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns="http://farelogix.com/flx/EMDSysCancelRS" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://farelogix.com/flx/EMDSysCancelRS" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:attributeGroup name="DocType">
+    <xsd:attribute name="DocType">
+      <xsd:annotation>
+        <xsd:documentation>Possible values are: "CANN"</xsd:documentation>
+      </xsd:annotation>
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:string">
+          <xsd:length value="4" />
+          <xsd:enumeration value="TKTT" />
+          <xsd:enumeration value="CANX" />
+          <xsd:enumeration value="EMDS" />
+          <xsd:enumeration value="EMDA" />
+          <xsd:enumeration value="TASF" />
+          <xsd:enumeration value="MD50" />
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:attribute>
+  </xsd:attributeGroup>
+  <xsd:element name="EMDSysCancelRS">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element minOccurs="0" name="InfoGroup">
+          <xsd:annotation>
+            <xsd:documentation>Error and information group</xsd:documentation>
+          </xsd:annotation>
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element minOccurs="0" ref="ForInfo" />
+              <xsd:element minOccurs="0" maxOccurs="unbounded" ref="Error" />
+              <xsd:element minOccurs="0" maxOccurs="unbounded" ref="MarketingData" />
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element minOccurs="0" maxOccurs="unbounded" ref="SourceStdAttributes" />
+        <xsd:choice>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="Document">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="CancelSuccessful">
+                  <xsd:annotation>
+                    <xsd:documentation>Allowed values: Y or N</xsd:documentation>
+                  </xsd:annotation>
+                </xsd:element>
+              </xsd:sequence>
+              <xsd:attributeGroup ref="DocType" />
+              <xsd:attribute name="DocName">
+                <xsd:annotation>
+                  <xsd:documentation>Possible values are: "EMDA", "EMDS"</xsd:documentation>
+                </xsd:annotation>
+              </xsd:attribute>
+              <xsd:attribute name="Number" type="xsd:string" use="required">
+                <xsd:annotation>
+                  <xsd:documentation>The 13-digit number of the cancelled document.  In case of a conjunctive set only the primary number of the set is returned
+
+Example:  0017366845341</xsd:documentation>
+                </xsd:annotation>
+              </xsd:attribute>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="TransactionID">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element minOccurs="0" maxOccurs="unbounded" name="Document">
+                  <xsd:complexType>
+                    <xsd:sequence>
+                      <xsd:element name="CancelSuccessful">
+                        <xsd:annotation>
+                          <xsd:documentation>Allowed values: Y or N</xsd:documentation>
+                        </xsd:annotation>
+                      </xsd:element>
+                    </xsd:sequence>
+                    <xsd:attributeGroup ref="DocType" />
+                    <xsd:attribute name="DocName">
+                      <xsd:annotation>
+                        <xsd:documentation>Possible values are: "EMDA", "EMDS"</xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:attribute>
+                    <xsd:attribute name="Number" type="xsd:string" use="required">
+                      <xsd:annotation>
+                        <xsd:documentation>The 13-digit number of the cancelled document.  In case of a conjunctive set only the primary number of the set is returned
+
+Example:  0017366845341</xsd:documentation>
+                      </xsd:annotation>
+                    </xsd:attribute>
+                  </xsd:complexType>
+                </xsd:element>
+              </xsd:sequence>
+              <xsd:attribute name="Number" use="required">
+                <xsd:annotation>
+                  <xsd:documentation>TransactionID number</xsd:documentation>
+                </xsd:annotation>
+              </xsd:attribute>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:sequence>
+      <xsd:attribute name="Version" type="xsd:string" use="optional">
+        <xsd:annotation>
+          <xsd:documentation source="DESCRIPTION" xml:lang="en">Message version number.
+Example: 1.0</xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="TimeStamp" type="xsd:dateTime" use="optional">
+        <xsd:annotation>
+          <xsd:documentation source="DESCRIPTION" xml:lang="en">Message creation timestamp.
+Example: 2012-01-13T13:59:38Z</xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="TransactionIdentifier" type="xsd:string" use="optional">
+        <xsd:annotation>
+          <xsd:documentation source="DESCRIPTION" xml:lang="en">Unique relationship identifier for request and response messages that are part of an on-going transaction.
+Example: TRN12345</xsd:documentation>
+          <xsd:documentation source="GUIDELINES" xml:lang="en">=notes=
+1. This is a unique identifier to relate all messages that are part of an on-going transaction.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="PrimaryLangID" use="optional">
+        <xsd:annotation>
+          <xsd:documentation source="DESCRIPTION" xml:lang="en">Primary language preference for message content.
+Example: en-US (English, United States)</xsd:documentation>
+          <xsd:documentation source="ENCODING" xml:lang="en">For maximum interoperability, content language designators are specified using Microsoft National Language Support (NLS) encoding.
+http://msdn.microsoft.com/en-us/goglobal/bb896001.aspx</xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="2" />
+            <xsd:maxLength value="5" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="AltLangID" use="optional">
+        <xsd:annotation>
+          <xsd:documentation source="DESCRIPTION" xml:lang="en">Alternate language preference for message content.
+Example: en-GB (English, United Kingdom)</xsd:documentation>
+          <xsd:documentation source="ENCODING" xml:lang="en">For maximum interoperability, content language designators are specified using Microsoft National Language Support (NLS) encoding.
+http://msdn.microsoft.com/en-us/goglobal/bb896001.aspx</xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:minLength value="2" />
+            <xsd:maxLength value="5" />
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
+      <xsd:attribute name="TargetSystem" type="xsd:string" use="optional">
+        <xsd:annotation>
+          <xsd:documentation source="DESCRIPTION" xml:lang="en">Message target system type.
+Examples:
+PRODUCTION
+STAGING
+TEST</xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="TargetSystemName" type="xsd:string" use="optional">
+        <xsd:annotation>
+          <xsd:documentation source="DESCRIPTION" xml:lang="en">Message target system name.
+Example: STG002</xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="SourceStdAttributes" type="SourceStdAttributes">
+    <xsd:annotation>
+      <xsd:documentation>Source Aggregation Information. </xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+  <xsd:element name="ForInfo">
+    <xsd:annotation>
+      <xsd:documentation>Information group</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element maxOccurs="unbounded" ref="Text">
+          <xsd:annotation>
+            <xsd:documentation>Information text or error text. Example: Free flow text.  </xsd:documentation>
+          </xsd:annotation>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="Text" type="xsd:string">
+    <xsd:annotation>
+      <xsd:documentation>Information text or error text. Example: Free flow text.  </xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+  <xsd:element name="Error">
+    <xsd:annotation>
+      <xsd:documentation>Error group</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="Code">
+          <xsd:annotation>
+            <xsd:documentation>Error code or equipment type code.  Example: 0104 (error code)</xsd:documentation>
+          </xsd:annotation>
+        </xsd:element>
+        <xsd:element maxOccurs="unbounded" ref="Text" />
+      </xsd:sequence>
+      <xsd:attribute name="ErrorType" type="xsd:string" use="required">
+        <xsd:annotation>
+          <xsd:documentation>Type of error.  Example: Air</xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="TransactionID">
+        <xsd:annotation>
+          <xsd:documentation>references to the ID received in the request</xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="Number" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The 13-digit number of the cancelled document.  In case of a conjunctive set only the primary number of the set is returned
+
+Example:  0017366845341</xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+      <xsd:attribute name="Source" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The source returning the error</xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="Code" type="xsd:string">
+    <xsd:annotation>
+      <xsd:documentation>Error code or equipment type code.  Example: 0104 (error code), 747 (equipment code)</xsd:documentation>
+    </xsd:annotation>
+  </xsd:element>
+  <xsd:element name="MarketingData">
+    <xsd:annotation>
+      <xsd:documentation>Marketing Messages and Multimedia Links.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element minOccurs="0" name="MediaContent">
+          <xsd:annotation>
+            <xsd:documentation source="DESCRIPTION" xml:lang="en">Media content information.</xsd:documentation>
+          </xsd:annotation>
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element minOccurs="0" name="Images">
+                <xsd:annotation>
+                  <xsd:documentation source="DESCRIPTION" xml:lang="en">Image information.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" name="Image">
+                      <xsd:annotation>
+                        <xsd:documentation source="DESCRIPTION" xml:lang="en">Image detail.</xsd:documentation>
+                      </xsd:annotation>
+                      <xsd:complexType>
+                        <xsd:sequence>
+                          <xsd:element name="Height">
+                            <xsd:annotation>
+                              <xsd:documentation>Height of media content in specified units.</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:complexType>
+                              <xsd:simpleContent>
+                                <xsd:extension base="xsd:int">
+                                  <xsd:attribute name="Unit" type="xsd:string" use="required">
+                                    <xsd:annotation>
+                                      <xsd:documentation source="DESCRIPTION" xml:lang="en">Dimension unit.
+Examples:
+MM (MILLIMETER)
+PX (PIXEL)</xsd:documentation>
+                                      <xsd:documentation source="ENCODING" xml:lang="en">Select a value from the enumerated list or enter a string value.
+=enumerated values=
+MM = MILLIMETER
+PX = PIXEL</xsd:documentation>
+                                    </xsd:annotation>
+                                  </xsd:attribute>
+                                </xsd:extension>
+                              </xsd:simpleContent>
+                            </xsd:complexType>
+                          </xsd:element>
+                          <xsd:element name="Width">
+                            <xsd:annotation>
+                              <xsd:documentation>Width of media content in specified units.</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:complexType>
+                              <xsd:simpleContent>
+                                <xsd:extension base="xsd:int">
+                                  <xsd:attribute name="Unit" type="xsd:string" use="required">
+                                    <xsd:annotation>
+                                      <xsd:documentation source="DESCRIPTION" xml:lang="en">Dimension unit.
+Examples:
+MM (MILLIMETER)
+PX (PIXEL)</xsd:documentation>
+                                      <xsd:documentation source="ENCODING" xml:lang="en">Select a value from the enumerated list or enter a string value.
+=enumerated values=
+MM = MILLIMETER
+PX = PIXEL</xsd:documentation>
+                                    </xsd:annotation>
+                                  </xsd:attribute>
+                                </xsd:extension>
+                              </xsd:simpleContent>
+                            </xsd:complexType>
+                          </xsd:element>
+                          <xsd:element minOccurs="0" name="ImageData" type="xsd:string">
+                            <xsd:annotation>
+                              <xsd:documentation source="DESCRIPTION" xml:lang="en">Encoded image value, typically in base64.</xsd:documentation>
+                            </xsd:annotation>
+                          </xsd:element>
+                          <xsd:element minOccurs="0" name="ImageText">
+                            <xsd:annotation>
+                              <xsd:documentation source="DESCRIPTION" xml:lang="en">Media associated text.</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:complexType>
+                              <xsd:sequence>
+                                <xsd:element maxOccurs="unbounded" name="Text">
+                                  <xsd:simpleType>
+                                    <xsd:restriction base="xsd:string">
+                                      <xsd:minLength value="1" />
+                                    </xsd:restriction>
+                                  </xsd:simpleType>
+                                </xsd:element>
+                              </xsd:sequence>
+                            </xsd:complexType>
+                          </xsd:element>
+                        </xsd:sequence>
+                        <xsd:attribute name="ImageID" type="xsd:string" use="optional">
+                          <xsd:annotation>
+                            <xsd:documentation source="DESCRIPTION" xml:lang="en">Unique media ID.
+Examples:
+IMG713
+SFO_LOUNGE</xsd:documentation>
+                            <xsd:documentation source="GUIDELINES" xml:lang="en">=notes=
+1. Provides an unique ID for any available images returned in any responsemessages.
+2. FileRetrieveRQ/ FileListRS will utilize these ID's to retrieve the full image(s) as needed.</xsd:documentation>
+                          </xsd:annotation>
+                        </xsd:attribute>
+                        <xsd:attribute name="Caption" type="xsd:string" use="optional">
+                          <xsd:annotation>
+                            <xsd:documentation source="DESCRIPTION" xml:lang="en">Media caption.
+Example: PREMIUM SEAT</xsd:documentation>
+                          </xsd:annotation>
+                        </xsd:attribute>
+                        <xsd:attribute name="Symbology" type="xsd:string" use="optional">
+                          <xsd:annotation>
+                            <xsd:documentation source="DESCRIPTION" xml:lang="en">Barcode symbology applied.
+Example: PDF417</xsd:documentation>
+                          </xsd:annotation>
+                        </xsd:attribute>
+                        <xsd:attribute name="Encoding" type="xsd:string" use="optional">
+                          <xsd:annotation>
+                            <xsd:documentation source="DESCRIPTION" xml:lang="en">Media encoding method.
+Example: BASE64</xsd:documentation>
+                          </xsd:annotation>
+                        </xsd:attribute>
+                        <xsd:attribute name="Format" type="xsd:string" use="optional">
+                          <xsd:annotation>
+                            <xsd:documentation source="DESCRIPTION" xml:lang="en">Media format.
+Example: JPEG</xsd:documentation>
+                          </xsd:annotation>
+                        </xsd:attribute>
+                      </xsd:complexType>
+                    </xsd:element>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+              <xsd:element minOccurs="0" name="MediaLinks">
+                <xsd:annotation>
+                  <xsd:documentation source="DESCRIPTION" xml:lang="en">Link information.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element maxOccurs="unbounded" name="Link">
+                      <xsd:annotation>
+                        <xsd:documentation source="DESCRIPTION" xml:lang="en">Link detail.</xsd:documentation>
+                      </xsd:annotation>
+                      <xsd:complexType>
+                        <xsd:attribute name="LinkID" type="xsd:string" use="optional">
+                          <xsd:annotation>
+                            <xsd:documentation source="DESCRIPTION" xml:lang="en">Unique link ID.
+Example: SFOLOUNGE</xsd:documentation>
+                          </xsd:annotation>
+                        </xsd:attribute>
+                        <xsd:attribute name="Caption" type="xsd:string" use="optional">
+                          <xsd:annotation>
+                            <xsd:documentation source="DESCRIPTION" xml:lang="en">Caption or label.
+Example: PREMIUM SEAT</xsd:documentation>
+                          </xsd:annotation>
+                        </xsd:attribute>
+                        <xsd:attribute name="Type" type="xsd:string" use="optional">
+                          <xsd:annotation>
+                            <xsd:documentation source="DESCRIPTION" xml:lang="en">Media link type.
+Example:
+DET (Details)
+DIS (Disclosure)
+VID (Video)
+CAM (Webcam)
+PGE (Webpage)</xsd:documentation>
+                          </xsd:annotation>
+                        </xsd:attribute>
+                      </xsd:complexType>
+                    </xsd:element>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+        <xsd:element minOccurs="0" maxOccurs="unbounded" name="Message">
+          <xsd:annotation>
+            <xsd:documentation source="DESCRIPTION" xml:lang="en">Marketing message.
+Example: ONE TRAVELER MAY BE ELIGIBLE FOR A FREE SEAT</xsd:documentation>
+          </xsd:annotation>
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element maxOccurs="unbounded" name="Text">
+                <xsd:simpleType>
+                  <xsd:restriction base="xsd:string">
+                    <xsd:minLength value="1" />
+                  </xsd:restriction>
+                </xsd:simpleType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+      <xsd:attribute name="Source" type="xsd:string" use="optional">
+        <xsd:annotation>
+          <xsd:documentation>Identifies the source of this  element. In other words where the content originates from. Not limited to GDS, applicable to direct connect as well. Example: 1A, 1V, or other. </xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:complexType name="SourceStdAttributes">
+    <xsd:annotation>
+      <xsd:documentation>Source Aggregation Information. </xsd:documentation>
+    </xsd:annotation>
+    <xsd:attribute name="Source" type="xsd:string" use="optional">
+      <xsd:annotation>
+        <xsd:documentation>Identifies the source of this element. In other words where the content originates from. Not limited to GDS, applicable to direct connect as well. Example: 1A, 1V, or other. </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="Version" type="xsd:string" use="optional">
+      <xsd:annotation>
+        <xsd:documentation source="DESCRIPTION" xml:lang="en">Message version number.
+Example: 1.0</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="TimeStamp" type="xsd:dateTime" use="optional">
+      <xsd:annotation>
+        <xsd:documentation source="DESCRIPTION" xml:lang="en">Message creation timestamp.
+Example: 2012-01-13T13:59:38Z</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="TransactionIdentifier" type="xsd:string" use="optional">
+      <xsd:annotation>
+        <xsd:documentation source="DESCRIPTION" xml:lang="en">Unique relationship identifier for request and response messages that are part of an on-going transaction.
+Example: TRN12345</xsd:documentation>
+        <xsd:documentation source="GUIDELINES" xml:lang="en">=notes=
+1. This is a unique identifier to relate all messages that are part of an on-going transaction.</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+</xsd:schema>
