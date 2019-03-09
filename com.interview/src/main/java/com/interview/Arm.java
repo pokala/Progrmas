@@ -3,7 +3,7 @@ package com.interview;
 public class Arm {
 	 public static void main(String[] args)
 	 {
-		 int n=143;
+		 int n=153;
 		 int arm=0;
 		 int rem;
 		 int temp=n;
