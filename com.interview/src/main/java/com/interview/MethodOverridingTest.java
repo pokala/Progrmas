@@ -6,6 +6,7 @@ public class MethodOverridingTest {
 	{
 		Animal a= new Dog();
 		a.eat();
+	    
 //		a.sound();
 		a.i=15;
 		System.out.println(a.i);
@@ -16,8 +17,5 @@ public class MethodOverridingTest {
 		
 		Animal aa= (Animal) d;
 		aa.eat();
-		
-		
 	}
-
 }
